@@ -22,6 +22,16 @@ class UserController
 
     protected $layoutTemplate = '@user/layout.twig';
 
+
+    protected $templates = array(
+            "login" => "@user/login.twig",
+            "register" => "@user/register.twig",
+            "view" => "@user/view.twig",
+            "edit" => "@user/edit.twig",
+            "list" => "@user/list.twig"
+    );
+
+
     /**
      * Constructor.
      *
@@ -55,6 +65,31 @@ class UserController
         $this->layoutTemplate = $layoutTemplate;
     }
 
+    public function setTemplates(array $templates) {
+        foreach ($templates as $name => $template) {
+            $this->setTemplate($name, $template);
+        }
+    }
+
+    /**
+     * @param string $tpName template name
+     * @param unknown $template twig template
+     */
+    public function setTemplate($name, $template)
+    {
+        $this->templates[$name] = $template;
+    }
+
+    public function getTemplate($name)
+    {
+        if (isset($this->templates[$name])) {
+            return $this->templates[$name];
+        }
+        throw new \Exception('Template '.$name.' Unknown');
+    }
+
+
+
     /**
      * Login action.
      *
@@ -64,7 +99,7 @@ class UserController
      */
     public function loginAction(Application $app, Request $request)
     {
-        return $app['twig']->render('@user/login.twig', array(
+        return $app['twig']->render($this->getTemplate("login"), array(
             'layout_template' => $this->layoutTemplate,
             'error' => $app['security.last_error']($request),
             'last_username' => $app['session']->get('_security.last_username'),
@@ -101,7 +136,7 @@ class UserController
             }
         }
 
-        return $app['twig']->render('@user/register.twig', array(
+        return $app['twig']->render($this->getTemplate("user"), array(
             'layout_template' => $this->layoutTemplate,
             'error' => isset($error) ? $error : null,
             'name' => $request->request->get('name'),
@@ -150,7 +185,7 @@ class UserController
             throw new NotFoundHttpException('No user was found with that ID.');
         }
 
-        return $app['twig']->render('@user/view.twig', array(
+        return $app['twig']->render($this->getTemplate("view"), array(
             'layout_template' => $this->layoutTemplate,
             'user' => $user,
             'imageUrl' => $this->getGravatarUrl($user->getEmail()),
