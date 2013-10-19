@@ -58,7 +58,7 @@ class UserServiceProvider implements ServiceProviderInterface, ControllerProvide
     {
         // Add twig template path.
         if ($app->offsetExists('twig.loader.filesystem')) {
-            $app['twig.loader.filesystem']->addPath(__DIR__ . '/views/', 'user');
+            $app['twig.loader.filesystem']->prependPath(__DIR__ . '/views/', 'user');
         }
 
     }
