@@ -136,7 +136,7 @@ class UserController
             }
         }
 
-        return $app['twig']->render($this->getTemplate("user"), array(
+        return $app['twig']->render($this->getTemplate("register"), array(
             'layout_template' => $this->layoutTemplate,
             'error' => isset($error) ? $error : null,
             'name' => $request->request->get('name'),
