@@ -24,12 +24,12 @@ class UserServiceProvider implements ServiceProviderInterface, ControllerProvide
     public function register(Application $app)
     {
         $app['user.manager'] = $app->share(function($app) {
-            if(isset($app['config']) && isset($app['config']['SimpleUser'])
-                    && isset($app['config']['SimpleUser']["UserManagerClass"])) {
-                $class= $app['config']['SimpleUser']["UserManagerClass"];
-            } else {
+//             if(isset($app['config']) && isset($app['config']['SimpleUser'])
+//                     && isset($app['config']['SimpleUser']["UserManagerClass"])) {
+//                 $class= $app['config']['SimpleUser']["UserManagerClass"];
+//             } else {
                 $class  = "\SimpleUser\UserManager";
-            }
+//             }
             return new $class($app['db'], $app);
         });
 
