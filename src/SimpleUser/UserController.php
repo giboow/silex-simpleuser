@@ -254,7 +254,7 @@ class UserController
             }
         }
 
-        return $app['twig']->render('@user/edit.twig', array(
+        return $app['twig']->render($this->getTemplate("edit"), array(
             'layout_template' => $this->layoutTemplate,
             'error' => implode("\n", $errors),
             'user' => $user,
@@ -297,7 +297,7 @@ class UserController
         $firstResult = $offset + 1;
         $lastResult = ($offset + $limit) > $numResults ? $numResults : $offset + $limit;
 
-        return $app['twig']->render('@user/list.twig', array(
+        return $app['twig']->render($this->getTemplate("list"), array(
             'layout_template' => $this->layoutTemplate,
             'users' => $users,
             'numResults' => $numResults,
